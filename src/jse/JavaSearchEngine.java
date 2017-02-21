@@ -78,17 +78,20 @@ public class JavaSearchEngine extends JFrame {
 		mnFile.setBackground(new Color(255, 255, 255));
 		menuBar.add(mnFile);
 		
-		JMenuItem mntmAddFile = new JMenuItem("Add File");
+		JMenuItem mntmAddFile = new JMenuItem("Add File(s)");
 		mntmAddFile.setBorderPainted(true);
 		mntmAddFile.setForeground(new Color(0, 0, 0));
 		mntmAddFile.setBackground(new Color(255, 255, 255));
 		mnFile.add(mntmAddFile);
 		
-		JMenuItem mntmRemoveFile = new JMenuItem("Remove File");
+		JMenuItem mntmRemoveFile = new JMenuItem("Remove File(s)");
 		mntmRemoveFile.setBorderPainted(true);
 		mntmRemoveFile.setForeground(new Color(0, 0, 0));
 		mntmRemoveFile.setBackground(new Color(255, 255, 255));
 		mnFile.add(mntmRemoveFile);
+		
+		JMenuItem mntmRefreshFiles = new JMenuItem("Refresh File(s)");
+		mnFile.add(mntmRefreshFiles);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(51, 51, 51));
 		contentPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
