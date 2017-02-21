@@ -180,6 +180,8 @@ public class Window extends JFrame implements ActionListener {
 		getContentPane().add(filePanel, BorderLayout.CENTER);
 		getContentPane().add(resultsPanel, BorderLayout.CENTER);
 		getContentPane().add(managerPanel, BorderLayout.SOUTH);
+
+		setGlobalColor(getContentPane(), getJMenuBar());
 		
 		ShowManager(false);
 	}
@@ -199,7 +201,71 @@ public class Window extends JFrame implements ActionListener {
 			ShowManager(!managing);
 		}
 	}
-
+	
+	/**
+	 * Sets the color for every possible component
+	 * @param container The container for the JFrame
+	 * @param menu The MenuBar for the JFrame
+	 */
+	public void setGlobalColor(Container container, JMenuBar menu)
+	{
+	    menu.setForeground(foregroundColor);
+	    menu.setBackground(backgroundColor);
+		menu.setBorderPainted(false);
+	    
+	    for(Component c : menu.getComponents()) {
+	    	c.setForeground(foregroundColor);
+            c.setBackground(backgroundColor);
+	    }
+	    
+	    setGlobalColor(container);
+	}
+	
+	/**
+	 * Sets the color for every possible component in the main container
+	 * @param container The container for the JFrame
+	 */
+	public void setGlobalColor(Container container) {
+	    Border raisedBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED);
+	    Border loweredBorder = BorderFactory.createBevelBorder(BevelBorder.LOWERED);
+		
+	    for(Component c : container.getComponents())
+	    {
+	    	c.setForeground(foregroundColor);
+            c.setBackground(backgroundColor);
+	    	
+	        if(c instanceof Container)
+	        {
+	        	if(c instanceof JPanel) {
+	        		JPanel panel = (JPanel)c;
+	        		panel.setBorder(loweredBorder);
+	        	}
+	        	
+	        	if(c instanceof JTextField) {
+	        		JTextField label = (JTextField)c;
+	        		label.setBorder(loweredBorder);
+	        	}
+	        	
+	        	if(c instanceof JButton) {
+	        		JButton button = (JButton)c;
+	        		System.out.println(button.getInsets());
+	        		button.setBorder(new CompoundBorder(raisedBorder, new EmptyBorder(5, 17, 5, 17)));
+	        		System.out.println(button.getInsets());
+	        		
+	        		pack();
+	        	}
+	        	
+	        	if(c instanceof JTable) {
+	        		JTable table = (JTable)c;
+	        		table.setGridColor(new Color(80, 80, 80));
+	        		table.setBorder(loweredBorder);
+	        	}
+	        	
+                setGlobalColor((Container)c);
+	        }
+	    }
+	}
+	
 	public void ShowManager(boolean show) {
 		managing = show;
 		
