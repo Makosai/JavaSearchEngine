@@ -8,6 +8,9 @@ package jse;
  *
  */
 public class JavaSearchEngine {
+	// Constants
+	final static boolean debugging = false;
+	
 	// Variables
 	static Window window;
 
@@ -15,7 +18,6 @@ public class JavaSearchEngine {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		window = new Window();
 	}
 
