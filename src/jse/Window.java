@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.io.*;
+import java.nio.charset.Charset;
+
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -11,7 +14,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.filechooser.*;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -164,6 +169,7 @@ public class Window extends JFrame implements ActionListener {
 		
 		addFileButton = new JButton("Add File");
 		managerPanel.add(addFileButton);
+		addFileButton.addActionListener(this);
 		
 		removeFileButton = new JButton("Remove Files");
 		managerPanel.add(removeFileButton);
@@ -200,6 +206,32 @@ public class Window extends JFrame implements ActionListener {
 		if(e.getSource() == managerButton) {
 			ShowManager(!managing);
 		}
+		// Brings up window to choose files
+		JFileChooser fileBrowser = new JFileChooser();
+		
+		// Allows user to filter non-JSON file types
+		FileNameExtensionFilter JSONOnlyFilter = new FileNameExtensionFilter(
+				"JSON Files", "json");
+		fileBrowser.addChoosableFileFilter(JSONOnlyFilter);
+		
+		//try{
+			
+		if(e.getSource() == addFileButton) {
+			int returnVal = fileBrowser.showOpenDialog(Window.this);
+			if(returnVal == JFileChooser.APPROVE_OPTION)
+			{
+				File selectedFile = fileBrowser.getSelectedFile();
+				String fileName = selectedFile.getName();
+				
+				//FileOutputStream fos = new FileOutputStream(selectedFile);
+				//OutputStreamWriter out = new OutputStreamWriter(fos, Charset.forName("UTF-8"));
+				//out.write(this.filePanel);
+				//out.close();
+			}
+		}
+		//} //catch (IOException ioeOne) {
+				//ioeOne.printStackTrace();			
+		//}
 	}
 	
 	/**
