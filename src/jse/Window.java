@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.io.*;
-import java.nio.charset.Charset;
 
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -206,15 +205,15 @@ public class Window extends JFrame implements ActionListener {
 		if(e.getSource() == managerButton) {
 			ShowManager(!managing);
 		}
+		
 		// Brings up window to choose files
 		JFileChooser fileBrowser = new JFileChooser();
 		
-		// Allows user to filter non-JSON file types
-		FileNameExtensionFilter JSONOnlyFilter = new FileNameExtensionFilter(
-				"JSON Files", "json");
-		fileBrowser.addChoosableFileFilter(JSONOnlyFilter);
+		// Allows user to filter non-Text file types
+		FileNameExtensionFilter TextOnlyFilter = new FileNameExtensionFilter(
+				"Text Files", "txt");
+		fileBrowser.addChoosableFileFilter(TextOnlyFilter);
 		
-		//try{
 			
 		if(e.getSource() == addFileButton) {
 			int returnVal = fileBrowser.showOpenDialog(Window.this);
@@ -222,16 +221,10 @@ public class Window extends JFrame implements ActionListener {
 			{
 				File selectedFile = fileBrowser.getSelectedFile();
 				String fileName = selectedFile.getName();
-				
-				//FileOutputStream fos = new FileOutputStream(selectedFile);
-				//OutputStreamWriter out = new OutputStreamWriter(fos, Charset.forName("UTF-8"));
-				//out.write(this.filePanel);
-				//out.close();
+				// TODO Pass fileName and contents to List
 			}
 		}
-		//} //catch (IOException ioeOne) {
-				//ioeOne.printStackTrace();			
-		//}
+
 	}
 	
 	/**
