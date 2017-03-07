@@ -4,6 +4,11 @@
 package jse;
 
 import java.util.List;
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.*;
+
+
 
 /**
  * @author Team Javanonymous (Eric Pigott, Yosvany Reina, Kristopher Ali, Marcos Mendoza)
@@ -48,6 +53,26 @@ public class Data {
 			this.checksum = checksum;
 			this.data = data;
 		}
+		/**
+		 * Class to serialize the file list in order to save and load.
+		 */
+		public class SerializeData{
+			/**
+			 * try block for the serialization
+			 */
+			public void Saving(){
+				try {
+					FileOutputStream fileOut = new FileOutputStream("tmp/SavesForEngine.ser");
+					ObjectOutputStream saveOut = new ObjectOutputStream(fileOut);
+					saveOut.writeObject(files);
+					saveOut.close();
+					fileOut.close();
+				}
+				catch(IOException e ){
+				//do something when file not found.
+			}
+		}
+	}
 	}
 	
 	///////////
@@ -66,6 +91,31 @@ public class Data {
 	 */
 	public void Load() {
 		// Loads from the loading method that epigott is working on.
+		/**
+		 *  Im going to put the loading of the files in here since it only makes sense to. I will surround them
+		 *  in a comment block since i don't know if it will conflict with Erics loading code and or if it is even needed.
+		 *  - Marcos
+		 */
+		/**
+		 * Data a = null;
+		 * try {
+		 * 	FileInputStream fileIn = new FileInputStream("/tmp/SavesForEngine.ser");
+		 * 	ObjectInputStream saveIn = new OBjectInputStream(fileIn);
+		 * 	a = (Data) saveIn.readObject();
+		 * 	saveIn.close();
+		 * 	fileIn.close();
+		 * }
+		 * catch(IOException b ) {
+		 * 	b.printStackTrace();
+		 * 	return;
+		 * }
+		 * catch(ClassNotFoundException c) {
+		 * 	System.out.println("Employee class not found");
+		 * 	c.printStackTrace();
+		 * 	return;
+		 * }
+		 * 
+		 */
 	}
 
 }
