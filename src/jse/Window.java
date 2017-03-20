@@ -134,6 +134,7 @@ public class Window extends JFrame implements ActionListener {
 		
 		Object[][] searchData = new Object[][] {
 				{"name.txt"},
+				{"name1.txt"},
 				{"name2.txt"}
 		};
 		String[] searchColumns = new String[] { "Search Results" };
