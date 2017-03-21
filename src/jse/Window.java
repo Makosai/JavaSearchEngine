@@ -3,6 +3,7 @@ package jse;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+//import java.util.stream.IntStream;
 
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -11,6 +12,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,6 +24,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+
 
 /**
  * @author Team Javanonymous (Eric Pigott, Yosvany Reina, Kristopher Ali, Marcos Mendoza)
@@ -46,7 +49,11 @@ public class Window extends JFrame implements ActionListener {
 	ButtonGroup searchTypesGroup;
 	JRadioButton searchTypesAll, searchTypesAny, searchTypesPhrase;
 	
+	DefaultTableModel searchModel, fileModel;
 	JTable searchResults, fileResults;
+	
+	// Management Components
+	Data data = new Data();
 	
 	// Window Configuration Variables
 	Color foregroundColor = new Color(255, 255, 255), backgroundColor = new Color(51, 51 ,51);
@@ -65,6 +72,7 @@ public class Window extends JFrame implements ActionListener {
 		OR,
 		PHRASE
 	}
+
 	
 	/**
 	 * Constructor
@@ -77,7 +85,6 @@ public class Window extends JFrame implements ActionListener {
 	 * Initializes all of the components for the window
 	 */
 	final void initialize() {
-		// TODO Determine the size of all components below
 		// Forms the window for the GUI
 		setTitle("JSE - Javanonymous");
 		setSize(windowWidth, windowHeight);
@@ -148,14 +155,12 @@ public class Window extends JFrame implements ActionListener {
 		filePanel = new JPanel();
 		filePanel.setLayout(new BoxLayout(filePanel, BoxLayout.Y_AXIS));
 		
-		Object[][] fileData = new Object[][] {
-				{"name.txt", "status"},
-				{"name2.txt", "status"}
-		};
-		String[] fileColumns = new String[] { "Files", "Status" };
+		fileModel = new DefaultTableModel();
+		fileResults = new JTable(fileModel);
+		for(String col : Constants.FILE_COLUMNS) {
+			fileModel.addColumn(col);
+		}
 		
-		
-		fileResults = new JTable(fileData, fileColumns);
 		filePanel.add(new JScrollPane(fileResults));
 		
 		// Manager & File Buttons
@@ -164,11 +169,14 @@ public class Window extends JFrame implements ActionListener {
 		
 		addFileButton = new JButton("Add File");
 		managerPanel.add(addFileButton);
+		addFileButton.addActionListener(this);
 		
 		removeFileButton = new JButton("Remove Files");
+		removeFileButton.addActionListener(this);
 		managerPanel.add(removeFileButton);
 		
 		updateFileButton = new JButton("Update Files");
+		updateFileButton.addActionListener(this);
 		managerPanel.add(updateFileButton);
 		
 		managerButton = new JButton("File Manager");
@@ -184,8 +192,12 @@ public class Window extends JFrame implements ActionListener {
 		setGlobalColor(getContentPane(), getJMenuBar());
 		
 		ShowManager(false);
+		
+		data.Load(fileModel);
+		//data.UpdateFiles(data, IntStream.range(0, fileModel.getRowCount()).toArray(), fileModel); // Updates the files on startup.
 	}
 
+	// Interacts and responds to user actions on the GUI interface.
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == searchBox || e.getSource() == submitButton) {
@@ -200,6 +212,19 @@ public class Window extends JFrame implements ActionListener {
 		if(e.getSource() == managerButton) {
 			ShowManager(!managing);
 		}
+		
+		if(e.getSource() == updateFileButton) {
+			data.UpdateFiles(data, fileResults.getSelectedRows(), fileModel);
+		}
+
+		if(e.getSource() == addFileButton) {
+			FileManager.Add(data, fileModel);
+		}
+		
+		if(e.getSource() == removeFileButton) {
+			FileManager.Remove(data, fileResults.getSelectedRows(), fileModel);
+		}
+
 	}
 	
 	/**
@@ -248,9 +273,7 @@ public class Window extends JFrame implements ActionListener {
 	        	
 	        	if(c instanceof JButton) {
 	        		JButton button = (JButton)c;
-	        		System.out.println(button.getInsets());
 	        		button.setBorder(new CompoundBorder(raisedBorder, new EmptyBorder(5, 17, 5, 17)));
-	        		System.out.println(button.getInsets());
 	        		
 	        		pack();
 	        	}
