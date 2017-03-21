@@ -23,6 +23,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+// imports needed for Checksum.java
+import java.io.FileInputStream;
+import java.security.MessageDigest;
+
 /**
  * @author Team Javanonymous (Eric Pigott, Yosvany Reina, Kristopher Ali, Marcos Mendoza)
  *
@@ -55,6 +59,7 @@ public class Window extends JFrame implements ActionListener {
 	Insets insets;
 
 	boolean managing = false;
+        Checksum MD5checker = new Checksum();
 	
 	// User-Entered Variables
 	String query;
@@ -134,7 +139,6 @@ public class Window extends JFrame implements ActionListener {
 		
 		Object[][] searchData = new Object[][] {
 				{"name.txt"},
-				{"name1.txt"},
 				{"name2.txt"}
 		};
 		String[] searchColumns = new String[] { "Search Results" };
@@ -170,6 +174,7 @@ public class Window extends JFrame implements ActionListener {
 		managerPanel.add(removeFileButton);
 		
 		updateFileButton = new JButton("Update Files");
+		updateFileButton.addActionListener(this);
 		managerPanel.add(updateFileButton);
 		
 		managerButton = new JButton("File Manager");
@@ -187,6 +192,7 @@ public class Window extends JFrame implements ActionListener {
 		ShowManager(false);
 	}
 
+        // Interacts and responds to user actions on the GUI interface.
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == searchBox || e.getSource() == submitButton) {
@@ -200,6 +206,15 @@ public class Window extends JFrame implements ActionListener {
 		
 		if(e.getSource() == managerButton) {
 			ShowManager(!managing);
+                        System.out.println("May The Force Be Managed!");
+		}
+		
+		if(e.getSource() == updateFileButton) {
+                    System.out.println("May The Force Be Updated!");
+                    // String filecheck1 = MD5checker.getChecksum("dis");
+                    // String filecheck2 = MD5checker.getChecksum("dis");
+                    // String filecheck3 = MD5checker.getChecksum("dis");
+                        
 		}
 	}
 	
