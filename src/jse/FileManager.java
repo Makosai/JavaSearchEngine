@@ -4,7 +4,10 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JFileChooser;
 
-
+/**
+ * @author Team Javanonymous (Eric Pigott, Yosvany Reina, Kristopher Ali, Marcos Mendoza)
+ *
+ */
 public class FileManager { 
 	
 	/**
