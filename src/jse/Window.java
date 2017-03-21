@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.io.*;
+
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -11,7 +13,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.filechooser.*;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -172,6 +176,7 @@ public class Window extends JFrame implements ActionListener {
 		
 		addFileButton = new JButton("Add File");
 		managerPanel.add(addFileButton);
+		addFileButton.addActionListener(this);
 		
 		removeFileButton = new JButton("Remove Files");
 		managerPanel.add(removeFileButton);
@@ -225,6 +230,26 @@ public class Window extends JFrame implements ActionListener {
                         System.out.println(md5test_exception.toString());
                         }
 		}
+		
+		// Brings up window to choose files
+		JFileChooser fileBrowser = new JFileChooser();
+		
+		// Allows user to filter non-Text file types
+		FileNameExtensionFilter TextOnlyFilter = new FileNameExtensionFilter(
+				"Text Files", "txt");
+		fileBrowser.addChoosableFileFilter(TextOnlyFilter);
+		
+			
+		if(e.getSource() == addFileButton) {
+			int returnVal = fileBrowser.showOpenDialog(Window.this);
+			if(returnVal == JFileChooser.APPROVE_OPTION)
+			{
+				File selectedFile = fileBrowser.getSelectedFile();
+				String fileName = selectedFile.getName();
+				// TODO Pass fileName and contents to List
+			}
+		}
+
 	}
 	
 	/**
