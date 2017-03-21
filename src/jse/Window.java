@@ -192,6 +192,8 @@ public class Window extends JFrame implements ActionListener {
 		setGlobalColor(getContentPane(), getJMenuBar());
 		
 		ShowManager(false);
+		
+		data.Load(fileModel);
 	}
 
 	// Interacts and responds to user actions on the GUI interface.

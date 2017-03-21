@@ -90,13 +90,17 @@ public class Data {
 	 * If the file does not exist, the list is initialized but empty.
 	 */
 	@SuppressWarnings("unchecked")
-	public void Load() {
+	public void Load(DefaultTableModel model) {
 		try {
 			FileInputStream fileIn = new FileInputStream("data/FileData.dat");
 			ObjectInputStream saveIn = new ObjectInputStream(fileIn);
 			files = (List<FileData>)saveIn.readObject();
 			saveIn.close();
 			fileIn.close();
+
+			for(FileData fData : files) {
+				FileManager.Populate(this, new File(fData.path), model);
+			}
 		}
 		catch(IOException e) {
 			e.printStackTrace();
