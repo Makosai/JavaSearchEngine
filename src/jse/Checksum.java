@@ -29,11 +29,10 @@ public class Checksum{
                 }
         
         // The magic of the class goes here.
-        public String getChecksum(String filepath) throws Exception {
+        public String getChecksum(String filepath, boolean withfname) throws Exception {
                 
                 int finc = 0;
                 byte[] bufferIn = new byte[4096];
-            
                 
                 try {
                     
@@ -58,6 +57,11 @@ public class Checksum{
                     
                     md5sum = bufferString.toString();
                     // aSystem.out.println("Digest(in hex format):: " + bufferString.toString());
+                    
+                    if (withfname) {
+                        md5sum = filepath + ": " + md5sum;
+                    }
+                    
                     return md5sum;
                 }
                 catch(IOException | NoSuchAlgorithmException e) {
@@ -72,7 +76,7 @@ public class Checksum{
         public static void main(String[] args) throws Exception {
             Checksum testing = new Checksum();
             try {
-                String testingString = testing.getChecksum(filepath);
+                String testingString = testing.getChecksum(filepath, true);
                 System.out.println(testingString);
             }
             catch(IOException | NoSuchAlgorithmException e) {

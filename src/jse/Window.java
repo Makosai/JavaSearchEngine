@@ -216,9 +216,10 @@ public class Window extends JFrame implements ActionListener {
                     System.out.println("May The Force Be Updated!");
                     for (String checkme : FilesList)
                     try {
-                        String thischecked = MD5checker.getChecksum(checkme);
-                        
-                        System.out.println(checkme + ": " + thischecked);
+                        String thischeckedfull = MD5checker.getChecksum(checkme, true);
+                        String thischeckedsum = MD5checker.getChecksum(checkme, false);
+                        System.out.println("(with file name) " + thischeckedfull);
+                        System.out.println("(without file name) " + thischeckedsum);
                         }
                     catch(Exception md5test_exception) {
                         System.out.println(md5test_exception.toString());
