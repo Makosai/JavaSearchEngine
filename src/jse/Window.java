@@ -4,8 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.io.*;
-
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -13,10 +11,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.filechooser.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -88,7 +84,6 @@ public class Window extends JFrame implements ActionListener {
 	 * Initializes all of the components for the window
 	 */
 	final void initialize() {
-		// TODO Determine the size of all components below
 		// Forms the window for the GUI
 		setTitle("JSE - Javanonymous");
 		setSize(windowWidth, windowHeight);
@@ -224,7 +219,7 @@ public class Window extends JFrame implements ActionListener {
 		}
 		
 		if(e.getSource() == removeFileButton) {
-			FileManager.Remove(fileResults.getSelectedRows(), fileModel);
+			FileManager.Remove(data, fileResults.getSelectedRows(), fileModel);
 		}
 
 	}

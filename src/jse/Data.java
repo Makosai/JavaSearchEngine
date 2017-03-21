@@ -8,10 +8,6 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import jse.Data.FileData;
-
-import java.io.IOException;
-import java.io.Serializable;
 import java.io.*;
 
 
@@ -49,21 +45,24 @@ public class Data {
 		public String checksum;
 		
 		/**
-		 * The path of the file.
-		 */
-		public String path;
-		
-		/**
 		 * The contents of the file loaded into RAM.
 		 * (This may be removed, depending if it is better to open each file individually when searching) 
 		 */
 		public String data;
+
+		/**
+		 * The path of the file.
+		 */
+		public String path;
+		
+		public String status;
 		
 		public FileData(String name, String checksum, String data, String path) {
 			this.name = name;
 			this.checksum = checksum;
 			this.data = data;
 			this.path = path;
+			this.status = "up to date";
 		}
 	}
 	
@@ -107,6 +106,10 @@ public class Data {
 			c.printStackTrace();
 			return;
 		}
+	}
+	
+	public void UpdateFiles() {
+		
 	}
 
 	public static void FilesToTable(List<FileData> files, DefaultTableModel model) {
