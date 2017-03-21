@@ -23,9 +23,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-// imports needed for Checksum.java
-import java.io.FileInputStream;
-import java.security.MessageDigest;
 
 /**
  * @author Team Javanonymous (Eric Pigott, Yosvany Reina, Kristopher Ali, Marcos Mendoza)
@@ -70,6 +67,12 @@ public class Window extends JFrame implements ActionListener {
 		OR,
 		PHRASE
 	}
+        
+        String[] FilesList = 
+            {
+            "/home/epigott/Desktop/testfile.txt",
+            "/home/epigott/Desktop/fartfile.txt"
+            };
 	
 	/**
 	 * Constructor
@@ -211,10 +214,15 @@ public class Window extends JFrame implements ActionListener {
 		
 		if(e.getSource() == updateFileButton) {
                     System.out.println("May The Force Be Updated!");
-                    // String filecheck1 = MD5checker.getChecksum("dis");
-                    // String filecheck2 = MD5checker.getChecksum("dis");
-                    // String filecheck3 = MD5checker.getChecksum("dis");
+                    for (String checkme : FilesList)
+                    try {
+                        String thischecked = MD5checker.getChecksum(checkme);
                         
+                        System.out.println(checkme + ": " + thischecked);
+                        }
+                    catch(Exception md5test_exception) {
+                        System.out.println(md5test_exception.toString());
+                        }
 		}
 	}
 	
