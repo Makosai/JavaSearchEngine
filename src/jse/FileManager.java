@@ -53,8 +53,10 @@ public class FileManager {
 	 * @param tableItem The row in which the file is located.
 	 */
 	@SuppressWarnings("null")
-	public static void Remove(int row, DefaultTableModel model) {
-		model.removeRow(row);		
+	public static void Remove(int[] rows, DefaultTableModel model) {
+		for(int row : rows) {
+			model.removeRow(row);
+		}
 	}
 
 }

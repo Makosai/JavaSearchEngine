@@ -65,7 +65,6 @@ public class Window extends JFrame implements ActionListener {
 	Insets insets;
 
 	boolean managing = false;
-        Checksum MD5checker = new Checksum();
 	
 	// User-Entered Variables
 	String query;
@@ -76,12 +75,7 @@ public class Window extends JFrame implements ActionListener {
 		OR,
 		PHRASE
 	}
-        
-        String[] FilesList = 
-            {
-            "/home/epigott/Desktop/testfile.txt",
-            "/home/epigott/Desktop/fartfile.txt"
-            };
+
 	
 	/**
 	 * Constructor
@@ -205,7 +199,7 @@ public class Window extends JFrame implements ActionListener {
 		ShowManager(false);
 	}
 
-        // Interacts and responds to user actions on the GUI interface.
+	// Interacts and responds to user actions on the GUI interface.
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == searchBox || e.getSource() == submitButton) {
@@ -219,21 +213,10 @@ public class Window extends JFrame implements ActionListener {
 		
 		if(e.getSource() == managerButton) {
 			ShowManager(!managing);
-                        System.out.println("May The Force Be Managed!");
 		}
 		
 		if(e.getSource() == updateFileButton) {
-                    System.out.println("May The Force Be Updated!");
-                    for (String checkme : FilesList)
-                    try {
-                        String thischeckedfull = MD5checker.getChecksum(checkme, true);
-                        String thischeckedsum = MD5checker.getChecksum(checkme, false);
-                        System.out.println("(with file name) " + thischeckedfull);
-                        System.out.println("(without file name) " + thischeckedsum);
-                        }
-                    catch(Exception md5test_exception) {
-                        System.out.println(md5test_exception.toString());
-                        }
+			//data.UpdateFiles();
 		}
 
 		if(e.getSource() == addFileButton) {
@@ -241,7 +224,7 @@ public class Window extends JFrame implements ActionListener {
 		}
 		
 		if(e.getSource() == removeFileButton) {
-			FileManager.Remove(fileResults.getSelectedRow(), fileModel);
+			FileManager.Remove(fileResults.getSelectedRows(), fileModel);
 		}
 
 	}
