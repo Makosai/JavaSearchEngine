@@ -89,7 +89,9 @@ public class Data implements Serializable {
 	 */
 	public void Save() {
 		try {
-			FileOutputStream fileOut = new FileOutputStream("data/FileData.ser");
+			File file = new File("data/FileData.ser");
+			file.getParentFile().mkdirs();
+			FileOutputStream fileOut = new FileOutputStream(file);
 			ObjectOutputStream saveOut = new ObjectOutputStream(fileOut);
 			saveOut.writeObject(files);
 			saveOut.close();
