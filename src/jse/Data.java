@@ -3,7 +3,13 @@
  */
 package jse;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.table.DefaultTableModel;
+
+import jse.Data.FileData;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.*;
@@ -17,13 +23,13 @@ import java.io.*;
 public class Data {
 
 	public Data() {
-		Load();
+		//Load();
 	}
 	
 	///////////
 	// Variables
 	///////////
-	public List<FileData> files;
+	public List<FileData> files = new ArrayList<FileData>();
 	
 	///////////
 	// Classes
@@ -43,15 +49,21 @@ public class Data {
 		public String checksum;
 		
 		/**
+		 * The path of the file.
+		 */
+		public String path;
+		
+		/**
 		 * The contents of the file loaded into RAM.
 		 * (This may be removed, depending if it is better to open each file individually when searching) 
 		 */
 		public String data;
 		
-		public FileData(String name, String checksum, String data) {
+		public FileData(String name, String checksum, String data, String path) {
 			this.name = name;
 			this.checksum = checksum;
 			this.data = data;
+			this.path = path;
 		}
 	}
 	
@@ -95,6 +107,17 @@ public class Data {
 			c.printStackTrace();
 			return;
 		}
+	}
+
+	public static void FilesToTable(List<FileData> files, DefaultTableModel model) {
+		for(FileData fileData : files) {
+			model.addRow(new Object[] {fileData.name, CheckStatus(fileData.checksum, fileData.path)});
+		}
+	}
+
+	public static String CheckStatus(String checksum, String path) {
+		// TODO Auto-generated method stub
+		return "UNKNOWN";
 	}
 
 }

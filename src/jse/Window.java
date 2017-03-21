@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.filechooser.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -51,7 +52,11 @@ public class Window extends JFrame implements ActionListener {
 	ButtonGroup searchTypesGroup;
 	JRadioButton searchTypesAll, searchTypesAny, searchTypesPhrase;
 	
+	DefaultTableModel searchModel, fileModel;
 	JTable searchResults, fileResults;
+	
+	// Management Components
+	Data data = new Data();
 	
 	// Window Configuration Variables
 	Color foregroundColor = new Color(255, 255, 255), backgroundColor = new Color(51, 51 ,51);
@@ -160,14 +165,13 @@ public class Window extends JFrame implements ActionListener {
 		filePanel = new JPanel();
 		filePanel.setLayout(new BoxLayout(filePanel, BoxLayout.Y_AXIS));
 		
-		Object[][] fileData = new Object[][] {
-				{"name.txt", "status"},
-				{"name2.txt", "status"}
-		};
-		String[] fileColumns = new String[] { "Files", "Status" };
+		fileModel = new DefaultTableModel();
+		fileResults = new JTable(fileModel);
+		for(String col : Constants.FILE_COLUMNS) {
+			fileModel.addColumn(col);
+		}
+		fileModel.addRow(new Object[]{"name.txt", "status"});
 		
-		
-		fileResults = new JTable(fileData, fileColumns);
 		filePanel.add(new JScrollPane(fileResults));
 		
 		// Manager & File Buttons
@@ -179,6 +183,7 @@ public class Window extends JFrame implements ActionListener {
 		addFileButton.addActionListener(this);
 		
 		removeFileButton = new JButton("Remove Files");
+		removeFileButton.addActionListener(this);
 		managerPanel.add(removeFileButton);
 		
 		updateFileButton = new JButton("Update Files");
@@ -230,24 +235,13 @@ public class Window extends JFrame implements ActionListener {
                         System.out.println(md5test_exception.toString());
                         }
 		}
-		
-		// Brings up window to choose files
-		JFileChooser fileBrowser = new JFileChooser();
-		
-		// Allows user to filter non-Text file types
-		FileNameExtensionFilter TextOnlyFilter = new FileNameExtensionFilter(
-				"Text Files", "txt");
-		fileBrowser.addChoosableFileFilter(TextOnlyFilter);
-		
-			
+
 		if(e.getSource() == addFileButton) {
-			int returnVal = fileBrowser.showOpenDialog(Window.this);
-			if(returnVal == JFileChooser.APPROVE_OPTION)
-			{
-				File selectedFile = fileBrowser.getSelectedFile();
-				String fileName = selectedFile.getName();
-				// TODO Pass fileName and contents to List
-			}
+			FileManager.Add(data, fileModel);
+		}
+		
+		if(e.getSource() == removeFileButton) {
+			FileManager.Remove(fileResults.getSelectedRow(), fileModel);
 		}
 
 	}
