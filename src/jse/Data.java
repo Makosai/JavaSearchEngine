@@ -53,26 +53,6 @@ public class Data {
 			this.checksum = checksum;
 			this.data = data;
 		}
-		/**
-		 * Class to serialize the file list in order to save and load.
-		 */
-		public class SerializeData{
-			/**
-			 * try block for the serialization
-			 */
-			public void Saving(){
-				try {
-					FileOutputStream fileOut = new FileOutputStream("tmp/SavesForEngine.ser");
-					ObjectOutputStream saveOut = new ObjectOutputStream(fileOut);
-					saveOut.writeObject(files);
-					saveOut.close();
-					fileOut.close();
-				}
-				catch(IOException e ){
-				//do something when file not found.
-			}
-		}
-	}
 	}
 	
 	///////////
@@ -82,40 +62,39 @@ public class Data {
 	 * Saves the data to a file in a JSON format.
 	 */
 	public void Save() {
-		// Saves from the saving method that epigott is working on.
+		try {
+			FileOutputStream fileOut = new FileOutputStream("data/FileData.dat");
+			ObjectOutputStream saveOut = new ObjectOutputStream(fileOut);
+			saveOut.writeObject(files);
+			saveOut.close();
+			fileOut.close();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
 	 * Grabs persistent data from a file, converting it from JSON to a List.
 	 * If the file does not exist, the list is initialized but empty.
 	 */
+	@SuppressWarnings("unchecked")
 	public void Load() {
-		// Loads from the loading method that epigott is working on.
-		/**
-		 *  Im going to put the loading of the files in here since it only makes sense to. I will surround them
-		 *  in a comment block since i don't know if it will conflict with Erics loading code and or if it is even needed.
-		 *  - Marcos
-		 */
-		/**
-		 * Data a = null;
-		 * try {
-		 * 	FileInputStream fileIn = new FileInputStream("/tmp/SavesForEngine.ser");
-		 * 	ObjectInputStream saveIn = new OBjectInputStream(fileIn);
-		 * 	a = (Data) saveIn.readObject();
-		 * 	saveIn.close();
-		 * 	fileIn.close();
-		 * }
-		 * catch(IOException b ) {
-		 * 	b.printStackTrace();
-		 * 	return;
-		 * }
-		 * catch(ClassNotFoundException c) {
-		 * 	System.out.println("Employee class not found");
-		 * 	c.printStackTrace();
-		 * 	return;
-		 * }
-		 * 
-		 */
+		try {
+			FileInputStream fileIn = new FileInputStream("data/FileData.dat");
+			ObjectInputStream saveIn = new ObjectInputStream(fileIn);
+			files = (List<FileData>)saveIn.readObject();
+			saveIn.close();
+			fileIn.close();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		catch(ClassNotFoundException c) {
+			c.printStackTrace();
+			return;
+		}
 	}
 
 }
