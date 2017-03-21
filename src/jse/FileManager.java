@@ -1,6 +1,9 @@
 package jse;
 
 import java.io.File;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -34,20 +37,30 @@ public class FileManager {
 			File file = fileBrowser.getSelectedFile();
 			
 			Populate(data, file, model);
+			data.Save();
 		}
 	}
 	
 	public static void Populate(Data data, File file, DefaultTableModel model) {
 		String fileName = file.getName();
-		FileData fileData = data.new FileData(
-				fileName,
-				"checksum",
-				"data",
-				file.getAbsolutePath()
-		);
-		data.files.add(fileData);
+		try {
+			FileData fileData = data.new FileData(
+					fileName,
+					Checksum.GetChecksum(file.getAbsolutePath()),
+					Data.ReadFile(file.getAbsolutePath()),
+					file.getAbsolutePath(),
+					"up to date"
+			);
 			
-		model.addRow(new Object[] {fileData.name, Data.CheckStatus(fileData.checksum, fileData.path)});
+			data.files.add(fileData);
+			model.addRow(new Object[] {fileData.name, Data.CheckStatus(fileData.checksum, fileData.path)});			
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -59,6 +72,7 @@ public class FileManager {
 			model.removeRow(row);
 			data.files.remove(row);
 		}
+		data.Save();
 	}
 
 }

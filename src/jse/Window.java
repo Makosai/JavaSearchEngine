@@ -3,6 +3,7 @@ package jse;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+//import java.util.stream.IntStream;
 
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -159,7 +160,6 @@ public class Window extends JFrame implements ActionListener {
 		for(String col : Constants.FILE_COLUMNS) {
 			fileModel.addColumn(col);
 		}
-		fileModel.addRow(new Object[]{"name.txt", "status"});
 		
 		filePanel.add(new JScrollPane(fileResults));
 		
@@ -194,6 +194,7 @@ public class Window extends JFrame implements ActionListener {
 		ShowManager(false);
 		
 		data.Load(fileModel);
+		//data.UpdateFiles(data, IntStream.range(0, fileModel.getRowCount()).toArray(), fileModel); // Updates the files on startup.
 	}
 
 	// Interacts and responds to user actions on the GUI interface.
@@ -213,7 +214,7 @@ public class Window extends JFrame implements ActionListener {
 		}
 		
 		if(e.getSource() == updateFileButton) {
-			//data.UpdateFiles();
+			data.UpdateFiles(data, fileResults.getSelectedRows(), fileModel);
 		}
 
 		if(e.getSource() == addFileButton) {
@@ -272,9 +273,7 @@ public class Window extends JFrame implements ActionListener {
 	        	
 	        	if(c instanceof JButton) {
 	        		JButton button = (JButton)c;
-	        		System.out.println(button.getInsets());
 	        		button.setBorder(new CompoundBorder(raisedBorder, new EmptyBorder(5, 17, 5, 17)));
-	        		System.out.println(button.getInsets());
 	        		
 	        		pack();
 	        	}
