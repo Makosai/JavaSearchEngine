@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 
@@ -159,7 +160,7 @@ public class Data implements Serializable {
 	public static String CheckStatus(String checksum, String path) {
 		try {
 			String pathValue = Checksum.GetChecksum(path);
-			if(pathValue.equals(null)) {
+			if(pathValue == null) {
 				return "missing";
 			}
 			if(pathValue.equals(checksum)) {
@@ -168,7 +169,10 @@ public class Data implements Serializable {
 			if(!pathValue.equals(checksum)) {
 				return "modified";
 			}
-		} catch (NoSuchAlgorithmException | IOException e) {
+		}catch (NoSuchAlgorithmException | IOException e) {
+			if(e instanceof NoSuchFileException) {
+				return "missing";
+			}
 			e.printStackTrace();
 		}
 		
