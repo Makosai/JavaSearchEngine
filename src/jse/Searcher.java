@@ -19,7 +19,7 @@ public class Searcher {
 		
 		// If the queries doesn't contain a single element
 		// then return an empty Set.
-		if(!(queries.length > 0)) {
+		if(!(queries.length == 1 && queries[0].matches(".*[a-zA-Z0-9]+.*"))) {
 			return matches;
 		}
 		
