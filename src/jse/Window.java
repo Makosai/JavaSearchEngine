@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 //import java.util.stream.IntStream;
+import java.util.Set;
 
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -123,6 +124,7 @@ public class Window extends JFrame implements ActionListener {
 		searchPanel.add(searchTypesAll);
 		
 		searchTypesAny = new JRadioButton("Any Terms");
+		searchTypesAny.setSelected(true);
 		searchTypesGroup.add(searchTypesAny);
 		searchPanel.add(searchTypesAny);
 		
@@ -139,17 +141,11 @@ public class Window extends JFrame implements ActionListener {
 		resultsPanel = new JPanel();
 		resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
 		
-		Object[][] searchData = new Object[][] {
-				{"name.txt"},
-				{"name2.txt"}
-		};
-		String[] searchColumns = new String[] { "Search Results" };
+		searchModel = new DefaultTableModel();
+		searchResults = new JTable(searchModel);
+		searchModel.addColumn("Search Results");
 		
-		
-		searchResults = new JTable(searchData, searchColumns);
-		
-		JScrollPane searchResultsScrollPane = new JScrollPane(searchResults);
-		resultsPanel.add(searchResultsScrollPane);
+		resultsPanel.add(new JScrollPane(searchResults));
 		
 		// Table and buttons for file manager
 		filePanel = new JPanel();
@@ -203,7 +199,7 @@ public class Window extends JFrame implements ActionListener {
 		if(e.getSource() == searchBox || e.getSource() == submitButton) {
 			query = searchBox.getText();
 			
-			Search(query);
+			Search();
 			
 			if(JavaSearchEngine.debugging)
 				System.out.println("Query: " + query);
@@ -303,9 +299,32 @@ public class Window extends JFrame implements ActionListener {
 		pack();
 	}
 	
-	public void Search(String text) {
+	public void Search() {
 		if(managing) {
 			ShowManager(false);
+		}
+		
+		Searcher.Mode mode = Searcher.Mode.OR;
+		
+		if(searchTypesAll.isSelected()) {
+			mode = Searcher.Mode.AND;
+		} else {
+			if(searchTypesAny.isSelected()) {
+				mode = Searcher.Mode.OR;
+			} else {
+				if(searchTypesPhrase.isSelected()) {
+					mode = Searcher.Mode.PHRASE;
+				}
+			}
+		}
+		
+		Set<Data.FileData> matches = Searcher.Search(mode, data.files, query);
+
+		searchModel.setRowCount(0);
+		
+		for(Data.FileData match : matches) {
+			System.out.println(match.name);
+			searchModel.addRow(new Object[] { match.name });
 		}
 	}
 }
