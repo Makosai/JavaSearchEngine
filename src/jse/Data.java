@@ -181,9 +181,11 @@ public class Data implements Serializable {
 	
 	public static String ReadFile(String path) 
 	{
-		byte[] encoded = null;
+		byte[] encoded = new byte[0];
 		try {
-			encoded = Files.readAllBytes(Paths.get(path));
+			if(Files.exists(Paths.get(path))) {
+				encoded = Files.readAllBytes(Paths.get(path));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
