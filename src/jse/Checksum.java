@@ -15,10 +15,14 @@ import java.util.Arrays;
 public class Checksum {
 
 	public static String GetChecksum(String path) throws NoSuchAlgorithmException, IOException {
-		MessageDigest md = MessageDigest.getInstance("MD5");
-		md.update(Files.readAllBytes(Paths.get(path)));
-		byte[] digest = md.digest();
-		return Arrays.toString(digest);
+		if(Files.exists(Paths.get(path))) {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(Files.readAllBytes(Paths.get(path)));
+			byte[] digest = md.digest();
+			return Arrays.toString(digest);
+		}
+		
+		return null;
 	}
 }
         
